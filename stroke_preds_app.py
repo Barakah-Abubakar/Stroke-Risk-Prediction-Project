@@ -18,7 +18,7 @@ st.title("Stroke Risk Percentage Predictor")
 
 @st.cache_resource
 def train_model():
-    df = pd.read_csv("stroke_dataset.csv")
+    df = pd.read_csv("stroke_risk_dataset_v2.csv")
 
     features = [
         "age",
@@ -35,7 +35,7 @@ def train_model():
     y = df["stroke_risk_percentage"]
 
     categorical_features = ["gender"]
-    numeric_features = [f for f in features if f != "gender"]
+    numeric_features = [f for f in X if f != "gender"]
 
     preprocessor = ColumnTransformer(
         transformers=[
