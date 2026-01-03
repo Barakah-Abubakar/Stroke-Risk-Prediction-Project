@@ -44,15 +44,13 @@ def train_model():
         remainder="passthrough"
     )
 
-model = Pipeline(steps=[
+     model = Pipeline(steps=[
         ("preprocessing", preprocessor),
         ("regressor", LinearRegression())
     ])
 
-model.fit(X, y)
-return model
-
-
+     model.fit(X, y)
+     return model
 
 model = train_model()
 
