@@ -54,21 +54,26 @@ model = train_model()
 
 # User Inputs
 
+
 age = st.number_input("Age", min_value=18, max_value=100, value=45)
 gender = st.selectbox("Gender", ["Male", "Female"])
-high_bp = st.selectbox("High Blood Pressure", [0, 1])
-irregular_heartbeat = st.selectbox("Irregular Heartbeat", [0, 1])
-snoring = st.selectbox("Snoring / Sleep Apnea", [0, 1])
-chest_pain = st.selectbox("Chest Pain", [0, 1])
 
+high_blood_pressure = st.selectbox("High Blood Pressure", ["No", "Yes"])
+irregular_heartbeat = st.selectbox("Irregular Heartbeat", ["No", "Yes"])
+snoring_sleep_apnea = st.selectbox("Snoring / Sleep Apnea", ["No", "Yes"])
+chest_pain = st.selectbox("Chest Pain", ["No", "Yes"])
+
+# Convert Yes/No to 0/1
 input_data = pd.DataFrame([{
     "age": age,
     "gender": gender,
-    "high_blood_pressure": high_bp,
-    "irregular_heartbeat": irregular_heartbeat,
-    "snoring_sleep_apnea": snoring,
-    "chest_pain": chest_pain
+    "high_blood_pressure": 1 if high_blood_pressure == "Yes" else 0,
+    "irregular_heartbeat": 1 if irregular_heartbeat == "Yes" else 0,
+    "snoring_sleep_apnea": 1 if snoring_sleep_apnea == "Yes" else 0,
+    "chest_pain": 1 if chest_pain == "Yes" else 0
 }])
+
+
 
 
 # Prediction
