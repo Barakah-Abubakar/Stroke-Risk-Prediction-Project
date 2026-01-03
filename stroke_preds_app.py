@@ -1,20 +1,16 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 
-from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import LinearRegression
 
 st.set_page_config(page_title="Stroke Risk Predictor", layout="centered")
-
 st.title("Stroke Risk Percentage Predictor")
 
 
-# Load and train model 
+# Load and train model
 
 @st.cache_resource
 def train_model():
@@ -31,30 +27,29 @@ def train_model():
 
     target = "stroke_risk_percentage"
 
-    X = X = df.drop("stroke_risk_percentage", axis=1)
+    X = df.drop("stroke_risk_percentage", axis=1)
     y = df["stroke_risk_percentage"]
 
     categorical_features = ["gender"]
-    numeric_features = [f for f in X if f != "gender"]
 
     preprocessor = ColumnTransformer(
         transformers=[
-            ("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), categorical_features)
+            ("cat", OneHotEncoder(drop="first", handle_unknown="ignore"),
+             categorical_features)
         ],
         remainder="passthrough"
     )
 
-     model = Pipeline(steps=[
+    model = Pipeline(steps=[
         ("preprocessing", preprocessor),
         ("regressor", LinearRegression())
     ])
 
-     model.fit(X, y)
-     return model
+    model.fit(X, y)
+    return model
+
 
 model = train_model()
-
-
 
 
 # User Inputs
@@ -79,5 +74,5 @@ input_data = pd.DataFrame([{
 # Prediction
 
 if st.button("Predict Stroke Risk"):
-    prediction = pipeline.predict(input_data)[0]
+    prediction = model.predict(input_data)[0]
     st.success(f"Estimated Stroke Risk: **{prediction:.2f}%**")
