@@ -27,8 +27,8 @@ def train_model():
 
     target = "stroke_risk_percentage"
 
-    X = df.drop("stroke_risk_percentage", axis=1)
-    y = df["stroke_risk_percentage"]
+    X = df[features]
+    y = df[target]
 
     categorical_features = ["gender"]
 
